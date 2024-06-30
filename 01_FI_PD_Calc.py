@@ -18,8 +18,6 @@ class CalculatorApp:
         input_field = tk.Entry(input_frame, font=('arial', 18, 'bold'), textvariable=self.input_text, width=27, bg="#eee", bd=0, justify=tk.RIGHT)
         input_field.grid(row=0, column=0)
         input_field.pack(ipady=5)
-
-        # Create the buttons
         self.create_buttons()
 
     def create_buttons(self):
