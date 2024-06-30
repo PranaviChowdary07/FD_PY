@@ -30,7 +30,7 @@ class CalculatorApp:
             ('4', 2, 0), ('5', 2, 1), ('6', 2, 2), ('*', 2, 3),
             ('1', 3, 0), ('2', 3, 1), ('3', 3, 2), ('-', 3, 3),
             ('0', 4, 0), ('.', 4, 1), ('+', 4, 2), ('=', 4, 3),
-            ('C', 5, 0)
+            ('C', 5, 1), ('DEL',5,2)
         ]
 
         for (text, row, col) in buttons:
@@ -53,7 +53,10 @@ class CalculatorApp:
         elif char == 'C':
             self.expression = ""
             self.input_text.set("")
-        else:
+        elif char =='DEL':
+            self.expression = self.expression[:-1]
+            self.input_text.set(self.expression)
+        else: 
             self.expression += str(char)
             self.input_text.set(self.expression)
 
