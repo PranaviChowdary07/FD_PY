@@ -31,11 +31,17 @@ class CalculatorApp:
             ('1', 3, 0), ('2', 3, 1), ('3', 3, 2), ('-', 3, 3),
             ('0', 4, 0), ('.', 4, 1), ('+', 4, 2), ('=', 4, 3),
             ('(', 5, 0), (')', 5, 1), ('%', 5, 2), ('C', 5, 3),
-            ('DEL', 6, 0)  # Adjusted DEL button to span across multiple columns
+            ('DEL', 6, 0,4)  # Adjusted DEL button to span across multiple columns
         ]
 
-        for (text, row, col) in buttons:
-            self.create_button(text, row, col, btns_frame)
+        for button in buttons:
+           if len(button) == 3:
+                text, row, col = button
+                self.create_button(text, row, col, btns_frame)
+           else:
+                text, row, col, colspan = button
+                self.create_button(text, row, col, btns_frame, colspan)
+
 
     def create_button(self, text, row, col, frame,colspan = 1):
         btn_width = 10 if colspan == 1 else 21  # Adjust button width based on colspan
