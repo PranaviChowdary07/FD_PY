@@ -39,7 +39,7 @@ class CalculatorApp:
 
     def create_button(self, text, row, col, frame,colspan = 1):
         btn_width = 10 if colspan == 1 else 21  # Adjust button width based on colspan
-        btn = tk.Button(frame, text=text, fg="black", width=btn_width, height=3, bd=0, bg="#fff", cursor="hand2",
+        btn = tk.Button(frame, text=text, fg="black", width=btn_width, height=3, bd=0, bg="blue", cursor="hand2",
                         command=lambda t=text: self.on_button_click(t))
         btn.grid(row=row, column=col, columnspan=colspan, padx=1, pady=1)
 
