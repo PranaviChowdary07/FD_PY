@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
+import re
 
 class CalculatorApp:
     def __init__(self, root):
@@ -30,21 +30,25 @@ class CalculatorApp:
             ('4', 2, 0), ('5', 2, 1), ('6', 2, 2), ('*', 2, 3),
             ('1', 3, 0), ('2', 3, 1), ('3', 3, 2), ('-', 3, 3),
             ('0', 4, 0), ('.', 4, 1), ('+', 4, 2), ('=', 4, 3),
-            ('C', 5, 0 ,2), ('DEL',5,2,2)
+            ('(', 5, 0), (')', 5, 1), ('%', 5, 2), ('C', 5, 3),
+            ('DEL', 6, 0)  # Adjusted DEL button to span across multiple columns
         ]
 
         for (text, row, col) in buttons:
             self.create_button(text, row, col, btns_frame)
 
-    def create_button(self, text, row, col, frame, colspan = 1):
-        btn = tk.Button(frame, text=text, fg="black", width=10, height=3, bd=0, bg="#fff", cursor="hand2",
+    def create_button(self, text, row, col, frame,colspan = 1):
+        btn_width = 10 if colspan == 1 else 21  # Adjust button width based on colspan
+        btn = tk.Button(frame, text=text, fg="black", width=btn_width, height=3, bd=0, bg="#fff", cursor="hand2",
                         command=lambda t=text: self.on_button_click(t))
-        btn.grid(row=row, column=col,columnspan= colspan, padx=1, pady=1)
+        btn.grid(row=row, column=col, columnspan=colspan, padx=1, pady=1)
 
     def on_button_click(self, char):
         if char == '=':
             try:
-                result = str(eval(self.expression))
+                # Preprocess the expression to handle cases like 9(6*7)
+                processed_expression = self.preprocess_expression(self.expression)
+                result = str(eval(processed_expression))
                 self.input_text.set(result)
                 self.expression = result
             except Exception as e:
@@ -53,19 +57,21 @@ class CalculatorApp:
         elif char == 'C':
             self.expression = ""
             self.input_text.set("")
-        elif char =='DEL':
+        elif char == 'DEL':
             self.expression = self.expression[:-1]
             self.input_text.set(self.expression)
-        else: 
+        else:
+            # Allow addition of parentheses and other characters
             self.expression += str(char)
             self.input_text.set(self.expression)
+
+    def preprocess_expression(self, expr):
+        # Insert multiplication operator where needed
+        expr = re.sub(r'(\d)(\()', r'\1*\2', expr)
+        expr = re.sub(r'(\d+)%',r'\1/100',expr)
+        return expr
 
 if __name__ == "__main__":
     root = tk.Tk()
     CalculatorApp(root)
     root.mainloop()
-
-
- 
-
-
