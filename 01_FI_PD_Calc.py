@@ -10,8 +10,6 @@ class CalculatorApp:
         self.expression = ""
 
         self.input_text = tk.StringVar()
-
-        # Create the input field
         input_frame = tk.Frame(self.root, width=100, height=20, bd=0, highlightbackground="black", highlightcolor="black", highlightthickness=2)
         input_frame.pack(side=tk.TOP)
 
@@ -84,7 +82,6 @@ class CalculatorApp:
             self.input_text.set(self.expression)
 
     def preprocess_expression(self, expr):
-        # Insert multiplication operator where needed
         expr = re.sub(r'(\d)(\()', r'\1*\2', expr)
         expr = re.sub(r'(\d+)%', r'\1/100', expr)
         expr = re.sub(r'\^', r'**', expr)
