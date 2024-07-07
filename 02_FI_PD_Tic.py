@@ -23,10 +23,12 @@ window.resizable(False, False)
 # components for game
 frame = tkinter.Frame(window)
 label = tkinter.Label(frame,text=  curr_player+"'S turn",font  = ("Consolas", 20),background= color_gray,foreground="white")
-label.grid(row =0,column=0)
+label.grid(row =0,column=0,columnspan=3)
 
 for row in range(3):
     for column in range(3):
         board[row][column] = tkinter.Button(frame, text ="",font=("Consolas", 50,"bold"),background= color_gray,foreground=color_blue,width=4,height=1,command=lambda row = row ,column= column:set_title(row,column))
+        board[row][column].grid(row = row+1,column= column)
+frame.pack()
 # create loop for window open
 window.mainloop()
