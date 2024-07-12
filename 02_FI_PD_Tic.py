@@ -1,14 +1,47 @@
 import tkinter   # tk - interface(graphical) user interface library
 
 def set_title(row,column):
-    global curr_player 
-    board[row][column]["text"] = curr_player   # mark the board
+    global curr_player
+
+    if (game_over):
+        return
+
+    if board[row][column]["text"] != "":     # already taken spot(like X/O-- doesnot change)
+        return 
+    board[row][column]["text"] = curr_player  # mark the board
 
     if curr_player == playerO:   # switch player
         curr_player = playerX
     else:
         curr_player = playerO
+
     label["text"] = curr_player+"'s turn"
+
+    # Check winner
+    check_winner()
+
+def check_winner():
+    global turns, game_over
+    turns +=1
+
+    # horizontally chack 3 rows
+    for row in range(3):
+        if (board[row][0]["text"] == board[row][1]["text"] == board[row][2]["text"] and board[row][0]["text" != ""]):
+            label.config(text=board[row][0]["text"]+ "is the winner!",foreground=color_yellow)
+            for column in range(3):
+                board[row][column].config(foreground = color_yellow,background = color_light_gray)
+            game_over = True
+            return
+    # Vertically 
+    for column in range(3):
+        if (board[0][column]["text"] == board[1][column]["text"] == board[2][column]["text"] and board[0][column]["text" != ""]):
+            label.config(text=board[0][column]["text"]+ "is the winner!",foreground=color_yellow)
+            for row in range(3):
+                 board[row][column].config(foreground = color_yellow,background = color_light_gray)
+            game_over = True
+            return
+                
+
 def new_game():
     pass
 #Players
@@ -23,6 +56,9 @@ color_blue = "#4584b6"
 color_yellow = "#ffde57"
 color_gray = "#343434"
 color_light_gray = "#646464"
+
+turns = 0
+game_over = False
 
 # Window 
 window = tkinter.Tk()  # Create game wimdow
