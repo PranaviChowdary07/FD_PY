@@ -1,7 +1,14 @@
 import tkinter   # tk - interface(graphical) user interface library
 
 def set_title(row,column):
-    pass
+    global curr_player 
+    board[row][column]["text"] = curr_player   # mark the board
+
+    if curr_player == playerO:   # switch player
+        curr_player = playerX
+    else:
+        curr_player = playerO
+    label["text"] = curr_player+"'s turn"
 def new_game():
     pass
 #Players
